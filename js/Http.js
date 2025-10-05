@@ -6,11 +6,13 @@ const options = {
 }
 
 
-async function getDetailsForID(id){
+export async function getDetailsForID(id){
     try{
+        console.log("Fetching details for ID:", id); 
         const endpoint = url + id;
         const response = await fetch(endpoint, options);
-        const result = await response.text();
+        const result = await response.json();
+        console.log("Fetched details:", result); 
         return result;
 
 
@@ -22,11 +24,12 @@ async function getDetailsForID(id){
 
 }
 
- async function getRatingsbyID(id){
+ export async function getRatingsbyID(id){
     try{
         const endpoint = url + id + '/rating';
         const response = await fetch(endpoint, options);
         const result = await response.text();
+         console.log("Fetched details:", result);
         return result;
 
 
@@ -36,7 +39,7 @@ async function getDetailsForID(id){
         console.error("An error has occurred" ,error);
     }
 }
-async function getPosterbyID(id){
+export async function getPosterbyID(id){
     try{
         const endpoint = url + id +'/poster';
         const response = await fetch(endpoint, options);
@@ -55,6 +58,7 @@ async function getCastsbyID(id){
         const endpoint = url + id + '/cast';
         const response = await fetch(endpoint, options);
         const result = await response.text();
+         console.log("Fetched details:", result);
         return result;
 
 
@@ -65,11 +69,12 @@ async function getCastsbyID(id){
     }
 
 }
-async function getDirectorsbyID(id){
+export async function getDirectorsbyID(id){
     try{
         const endpoint = url + id + '/directors';
         const response = await fetch(endpoint, options);
         const result = await response.text();
+         console.log("Fetched details:", result);
         return result;
 
 
@@ -79,11 +84,12 @@ async function getDirectorsbyID(id){
         console.error("An error has occurred" ,error);
     }
 }
-async function getTop250Movies(){
+export async function getTop250Movies(){
     try{
-        const endpoint = url + '/top250-movies';
+        const endpoint = url + 'top250-movies';
         const response = await fetch(endpoint, options);
         const result = await response.text();
+         console.log("Fetched details:", result);
         return result;
 
 
@@ -93,11 +99,12 @@ async function getTop250Movies(){
         console.error("An error has occurred" ,error);
     }
 }
-async function getMostPopularMovies(){
+export async function getMostPopularMovies(){
     try{
-        const endpoint = url + '/most-popular-movies';
+        const endpoint = url + 'most-popular-movies';
         const response = await fetch(endpoint, options);
         const result = await response.text();
+         console.log("Fetched details:", result);
         return result;
 
 
@@ -107,7 +114,7 @@ async function getMostPopularMovies(){
         console.error("An error has occurred" ,error);
     }
 }
-async function getSearch(data){
+export async function getSearch(data){
 
 }
 
