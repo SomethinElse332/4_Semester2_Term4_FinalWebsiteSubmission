@@ -1,0 +1,31 @@
+.SUBackround{
+    height: 100vh;
+   background-image: url(../Assets/Images/toyota\ \(FILLER\ IMAGE\).jpg); 
+   background-size: cover;
+   
+}
+.SuBG{
+     height: 100%;
+background-color: rgba(137, 43, 226, 0.683);
+display: flex;
+justify-content: center;
+}
+
+.SUCard{
+   display: flex; 
+   align-items: center;
+
+}
+.SUInputMargin{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.SUButton{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+}
+.SUcardtext{
+    display: flex;
+   text-align: center;
+}
