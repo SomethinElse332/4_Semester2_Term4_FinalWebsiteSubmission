@@ -1,108 +1,229 @@
 import * as HttpMethods from './Http.js';
 
-HttpMethods.getDetailsForID(`tt0816692`)
- .then((details)=>{
+const MOVIES_PER_PAGE = 10;
+let currentPage = 1;
+let allTopMovies = [];
 
- });
-HttpMethods.getRatingsbyID(`tt0816692`);
-HttpMethods.getPosterbyID(`tt0816692`);
-HttpMethods.getDirectorsbyID(`tt0816692`);
+async function manager() {
+  await initialiseTopMovies();
+  await initialiseMovieCarousel();
+}
+manager();
 
-HttpMethods.getMostPopularMovies(`most-popular-movies`);
+// Top Movies section
+async function initialiseTopMovies() {
+  const data = await HttpMethods.getTop250Movies();
 
+  if (!data || data.length === 0) {
+    console.error("No top movies returned");
+    return;
+  }
 
+  allTopMovies = data; // Save all movies locally
+  renderPage(currentPage);
+}
 
-var topMovies = document.getElementById("topMoviesgrid");
-console.log(topMovies.innerHTML)
+async function renderPage(page) {
+  showLoadingScreen(true);
+  const topMoviesGrid = document.getElementById("topMoviesgrid");
+  topMoviesGrid.innerHTML = '<div class="row"></div>';
 
-var comment=`<div class="col-12 col-md-6">
-      <div class="card">
-        <img src=""></img>
-        <h3 class="card-title">Nemo</h3>
-        <p class="card-text">kanys hayrsbj jtfakjo hsyrav iayvsiug hatwjkiduwgid hayfsvhqkgds7 hsuigh</p>
-        <p class=""><strong>Directed by</strong> </p>
-        <p class="">Viewer Rating</p>
-        
+  const startIndex = (page - 1) * MOVIES_PER_PAGE;
+  const endIndex = startIndex + MOVIES_PER_PAGE;
+  const moviesToShow = allTopMovies.slice(startIndex, endIndex);
 
-        <div class="button">
-          <a href="/Individual movie.html" class="btn btn-primary Viewingbtn" >See movie</a>
-          <a href ="#" class="btn btn-secondary FavoutitesBtn">Favourites</a>
-        </div>
-      </div>
-    </div>`
- var structure='<div class="row">';   
-HttpMethods.getTop250Movies(`top250-movies`)
-.then((movies)=>{
-  console.log("Movies:",movies);
-  movies.forEach((movie)=>{
-    structure+='<div class="col-12 col-md-6"> <div class="card">';
+  const row = topMoviesGrid.querySelector(".row");
 
-    structure+=`<img src="${movie.primaryImage}"></img>
-            <h3 class="card-title"> ${movie.primaryTitle} </h3>
-            <p class="card-text"> ${movie.description} </p>
-            <p class=""><strong>Directed by</strong> john snow</p>
-            <p class="">Viewer Rating 6 </p>
-            
+  for (const movie of moviesToShow) {
+    await addMovieCard(movie, row);
+  }
 
-            <div class="button">
-              <a href="/Individual movie.html" class="btn btn-primary Viewingbtn" >See movie</a>
-              <a href ="#" class="btn btn-secondary favoutitesBtn">Favourites</a>
-            </div>`
+  showLoadingScreen(false);
+  topMoviesGrid.hidden = false;
 
+  renderPaginationControls(page);
+}
 
-    structure+='</div>' //card
-    structure+='</div>' //col
-
-  });
-structure+='</div>' //row
-
-topMovies.innerHTML=structure;
-});
-
-
-
-
-//movie carosel
-var movieCarouselcontainer = document.getElementById("movieCarousel");
-console.log(movieCarouselcontainer.innerHTML)
-
-var comment=`<div class="carousel-inner">;
-    <div class="carousel-item active">
-      <img src="..." class="d-block w-100" alt="...">
-      <div class="card">
-        <h3 class="card-title">Nemo</h3>
-        <p class="card-text">kanys hayrsbj jtfakjo hsyrav iayvsiug hatwjkiduwgid hayfsvhqkgds7 hsuigh</p>
-        <p class="">Directed by </p>      
-        <p class="">Viewer Rating</p>
-      </div>
-    </div>`
-
-var moviecarousel=``;
-moviecarousel+='<div class="carousel-item active"> <div class="card">';
-const img ="";
-const cardtitle="hogvbkbslkn";
-const cardtext="hobjx ihoibkhljn hljvhj";
-const directed="ugkjvcgyuf hougyfgvkll";
-const viewerrating="hhgyjv";
-
-
-moviecarousel+=`<img src=" ${img} "></img>
-        <h3 class="card-title"> ${cardtitle} </h3>
-        <p class="card-text"> ${cardtext} </p>
-        <p class=""><strong>Directed by</strong> ${directed} </p>
-        <p class="">Viewer Rating ${viewerrating}</p>
-        
-
-        <div class="button">
-          <a href="/Individual movie.html" class="btn btn-primary Viewingbtn" >See movie</a>
-          <a href ="#" class="btn btn-secondary favoutitesBtn">Favourites</a>
-        </div>`
-
-
-moviecarousel+='</div>' //card
-moviecarousel+='</div>' //carousel-item
-
-movieCarouselcontainer.innerHTML=moviecarousel;
+async function addMovieCard(movie, container) {
+  // Fetch small details only when needed
+  // const directors = await HttpMethods.getDirectorsbyID(movie.id);
+  // const rating = await HttpMethods.getRatingsbyID(movie.id);
  
 
-var movieCarosel = document.getElementById("movieCarosel");
+  const col = document.createElement("div");
+  col.classList.add("col-12", "col-md-6", "mb-3");
+
+  col.innerHTML = `
+    <div class="card">
+      <img src="${movie.primaryImage}" class="card-img-top" alt="${movie.primaryTitle}">
+      <div class="card-body">
+        <h5 class="card-title">${movie.primaryTitle}</h5>
+        <p class="card-text">${movie.description || "No description available."}</p>
+        <p class="card-text"><strong>Genre:</strong>
+        ${movie.genres.map((genre) => {
+          return  ' '  + genre;
+        })}
+        </p>
+        <button class="btn btn-primary" id="view-button" data-id="${movie.id}">View Details</button>
+        <button class="btn btn-primary" id="fav-button" data-id="${movie.id}">Add to Favourites</button>
+      </div>
+    </div>
+  `;
+
+  // <p><strong>Director:</strong></p>
+  //       <ul> 
+  //        ${directors.map((director) => {
+  //         return `<li>${director.fullName}</li>`;
+  //       })}
+  //       </ul>
+  //       <p><strong>Rating:</strong> ${rating.averageRating} (${rating.numVotes} ratings)</p>
+
+  container.appendChild(col);
+
+  // Attach event listeners
+  const viewBtn = col.querySelector("button#view-button");
+  const favBtn = col.querySelector("button#fav-button");
+  viewBtn.addEventListener("click", () => viewMovieDetails(movie.id));
+  favBtn.addEventListener("click", () => addToFavourites(movie.id));
+}
+
+function renderPaginationControls(currentPage) {
+  const paginationContainer = document.getElementById("paginationControls");
+  paginationContainer.innerHTML = "";
+
+  const totalPages = Math.ceil(allTopMovies.length / MOVIES_PER_PAGE);
+
+  const prevBtn = document.createElement("button");
+  prevBtn.textContent = "Previous";
+  prevBtn.classList.add("btn", "btn-secondary", "me-2");
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.addEventListener("click", () => {
+    renderPage(currentPage - 1);
+  });
+  paginationContainer.appendChild(prevBtn);
+
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement("button");
+    pageBtn.textContent = i;
+    pageBtn.classList.add("btn", i === currentPage ? "btn-primary" : "btn-outline-primary", "mx-1");
+    pageBtn.addEventListener("click", () => renderPage(i));
+    paginationContainer.appendChild(pageBtn);
+  }
+
+  const nextBtn = document.createElement("button");
+  nextBtn.textContent = "Next";
+  nextBtn.classList.add("btn", "btn-secondary", "ms-2");
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.addEventListener("click", () => {
+    renderPage(currentPage + 1);
+  });
+  paginationContainer.appendChild(nextBtn);
+}
+// --------------------------------------------------------------------------------------
+
+// Carousel
+const MOVIES_PER_SLIDE = 4;
+const MAX_MOVIES = 50;
+
+async function initialiseMovieCarousel() {
+  const data = await HttpMethods.getMostPopularMovies();
+
+  if (!data || data.length === 0) {
+    console.error("No movies returned for carousel");
+    return;
+  }
+
+  // Limit to 50 movies max
+  const limitedMovies = data.slice(0, MAX_MOVIES);
+  renderMovieCarousel(limitedMovies);
+}
+
+async function renderMovieCarousel(movies) {
+  const carouselContainer = document.getElementById("movieCarousel");
+  const indicatorContainer = document.querySelector(".carousel-indicators");
+
+  carouselContainer.innerHTML = "";
+  indicatorContainer.innerHTML = "";
+
+  const totalSlides = Math.ceil(movies.length / MOVIES_PER_SLIDE);
+
+  for (let i = 0; i < totalSlides; i++) {
+    const startIndex = i * MOVIES_PER_SLIDE;
+    const endIndex = startIndex + MOVIES_PER_SLIDE;
+    const slideMovies = movies.slice(startIndex, endIndex);
+
+    // --- Create indicator button ---
+    const indicator = document.createElement("button");
+    indicator.type = "button";
+    indicator.setAttribute("data-bs-target", "#carouselExampleIndicators");
+    indicator.setAttribute("data-bs-slide-to", i);
+    indicator.setAttribute("aria-label", `Slide ${i + 1}`);
+    if (i === 0) indicator.classList.add("active");
+    indicatorContainer.appendChild(indicator);
+
+    // --- Create slide ---
+    const carouselItem = document.createElement("div");
+    carouselItem.classList.add("carousel-item");
+    if (i === 0) carouselItem.classList.add("active");
+
+    const row = document.createElement("div");
+    row.classList.add("row", "justify-content-center", "g-3", "px-4");
+
+    slideMovies.forEach(movie => {
+      const col = document.createElement("div");
+      col.classList.add("col-12", "col-sm-6", "col-lg-3");
+
+      col.innerHTML = `
+        <div class="card h-100">
+          <img src="${movie.primaryImage}" class="card-img-top" alt="${movie.primaryTitle}">
+          <div class="card-body text-center">
+            <h6 class="card-title text-truncate">${movie.primaryTitle}</h6>
+            <button class="btn btn-sm btn-primary mt-2" data-id="${movie.id}">View Details</button>
+          </div>
+        </div>
+      `;
+
+      const button = col.querySelector("button");
+      button.addEventListener("click", () => viewMovieDetails(movie.id));
+
+      row.appendChild(col);
+    });
+
+    carouselItem.appendChild(row);
+    carouselContainer.appendChild(carouselItem);
+    showCarouselLoadingScreen(false);
+    document.getElementById("carouselContainer").hidden = false;
+  }
+}
+// -----------------------------------------------------------------------------------
+
+function addToFavourites(movieId) {
+  // Get user's list of favourites from storage
+
+  // Add movie to list
+
+  // Put list back into storage
+}
+
+function showLoadingScreen(show) {
+  const loading = document.getElementById('loadingScreen');
+  if (show) {
+    loading.style.display = 'flex';
+  } else {
+    loading.style.display = 'none';
+  }
+}
+
+function showCarouselLoadingScreen(show) {
+  const loading = document.getElementById('carouselLoadingScreen');
+  if (show) {
+    loading.style.display = 'flex';
+  } else {
+    loading.style.display = 'none';
+  }
+}
+
+function viewMovieDetails(movieId) {
+  window.location.href = `specificmovie.html?id=${movieId}`;
+}
