@@ -1,0 +1,64 @@
+.MovieCarousel{
+    width: 80%;
+   margin-left: 10%;
+   background-color: black;
+}
+.tMovies{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    background-color: black;
+}
+.topcards{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display:flex;
+    justify-content: space-between;
+    background-color: rgba(128, 0, 128, 0);
+    
+}
+.bottomcards{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    
+}
+.body{
+    background-color: black;
+    color: white;
+}
+.btn-primary{
+        background-color: darkmagenta;
+}
+.wlPCarTop{
+   width: 60%; 
+   margin-left: 20%;
+   margin-right: 20%;
+}
+.wlPCards{
+   
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+.wlC2{
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px; 
+}
+.WlBgImage{
+   
+   background-size: cover;
+}
+.card{
+    background-color: rgb(50, 50, 50);
+    color: white;
+}
+.navtext{
+  
+   color: white;
+}
