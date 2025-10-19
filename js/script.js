@@ -3,8 +3,14 @@ import * as HttpMethods from './Http.js';
 const MOVIES_PER_PAGE = 10;
 let currentPage = 1;
 let allTopMovies = [];
-
+const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
 async function manager() {
+  if(currentUser){
+    document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
+  }
+  else{
+    window.location.href='login.html';
+  }
   await initialiseTopMovies();
   await initialiseMovieCarousel();
 }
@@ -199,11 +205,13 @@ async function renderMovieCarousel(movies) {
 // -----------------------------------------------------------------------------------
 
 function addToFavourites(movieId) {
+  const email=currentUser.email;
   // Get user's list of favourites from storage
-
+const userFavourites=JSON.parse(localStorage.getItem('fav-' + email)) || [];
   // Add movie to list
-
+userFavourites.push(movieId);
   // Put list back into storage
+  localStorage.setItem(`fav-` + email,JSON.stringify(userFavourites));
 }
 
 function showLoadingScreen(show) {
