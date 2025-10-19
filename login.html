@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE-edge">
+<meta name="viewport" content="width-device-width, initial-scale-1.0">
+<meta name="keywords" content="">
+<title>Home Page</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="login-section" hidden>
+        <h1>Log In</h1>
+        <form>
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" id="userinput" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" id='passwordinput' required>
+
+            <button onclick="loginUser()" type="submit">Login</button>
+
+            <p>Dont have an account yet?<a href="#" onclick="showLogin(false)">Register</a></p>
+            </form>
+            </div>
+        
+
+            <div id="register-section">
+        <h1>Sign up</h1>
+        <form>
+            <label for="fname"><b>First name</b></label>
+            <input type="text" placeholder="Enter fname" name="fname" id="fnameInput" required>
+            <label for="lname"><b>Last name</b></label>
+            <input type="text" placeholder="Enter lname" name="lname" id="lnameInput" required>
+            <label for="email"><b>Email address</b></label>
+            <input type="text" placeholder="Enter Email" name="email" id="emailInput" required>
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" id="passwordInput" required>
+            <label for="confirm-password"><b>Confirm Password</b></label>
+            <input type="password" placeholder="Confirm your Password" name="confirm-password" id="confirmPasswordInput" required>
+   
+   
+            <button onclick="registerUser()" type="submit">Create account</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLogin(true)">Log in</a></p>
+    </div>
+
+
+
+    <script src="js/login.js"></script>
+</body>
