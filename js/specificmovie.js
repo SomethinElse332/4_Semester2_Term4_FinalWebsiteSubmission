@@ -3,7 +3,7 @@ import * as HttpMethods from './Http.js';
 document.addEventListener('DOMContentLoaded', initialiseMoviePage);
 
 async function initialiseMoviePage() {
- // Shows the loading screen
+ debugger;
   showLoadingScreen(true);
  
   // Gets the parameter that was passed into the URL
@@ -61,12 +61,20 @@ function showLoadingScreen(show) {
   }
 }
 
+function displayError (){
+
+}
+
+
 function addToFavourites(movieId) {
+const email=currentUser.email;
   // Get user's list of favourites from storage
-
+const userFavourites=JSON.parse(localStorage.getItem('fav-' + email)) || [];
   // Add movie to list
-
+userFavourites.push(movieId);
   // Put list back into storage
+  localStorage.setItem(`fav-` + email,JSON.stringify(userFavourites));
+  
 }
 
 function getEmbedUrl(watchUrl) {

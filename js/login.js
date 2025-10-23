@@ -50,7 +50,7 @@ async function registerUser() {
 }
 
 async function loginUser() {
-    debugger;
+
   const userinput = document.getElementById("userinput")
   const passwordinput = document.getElementById("passwordinput")
   const email = userinput.value;

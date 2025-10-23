@@ -1,16 +1,27 @@
+import * as HttpMethods from './Http.js';
 //get user from local storage
+const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
+if(currentUser){
+
+}else{
+  window.location.href='login.html';
+}
+
 async function manager(){
 //get favourites list for current user
- getUserFavourites();
 
+const Ids=getUserFavourites();
  //fill in table data
-
+renderTable(Ids);
 }
 
 manager();
 
+
+
 function getUserFavourites(){
     //get from local storage
+   return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
 }
 // async function initialiseFavourites(movieIds) {
 //   //const data = await HttpMethods.getTop250Movies();
@@ -27,23 +38,32 @@ function getUserFavourites(){
 async function renderTable(movieIds) {
   showLoadingScreen(true);
   const favouritesTable= document.getElementById("favouritesTable");
-  //topMoviesGrid.innerHTML = '<div class="row"></div>';
-
-//   const startIndex = (page - 1) * MOVIES_PER_PAGE;
-//   const endIndex = startIndex + MOVIES_PER_PAGE;
-//   const moviesToShow = allTopMovies.slice(startIndex, endIndex);
-
-  //const row = topMoviesGrid.querySelector(".row");
+  
 
   for (const movie of movieIds) {
-    //await addMovieCard(movie, row);
-
+    
     //get movie details by id from http
-
+    const movieData =await HttpMethods.getDetailsForID(movie);
     //create a table row with the data
-
+    const row=document.createElement("tr");
     //add row to favourites table
+    row.innerHTML=`
+    <td>
+    <img src='${movieData.primaryImage}' class="fav-poster"/>
+    </td>
+    <td>${movieData.primaryTitle}</td>
+    <td class='col-6'>${movieData.description}</td>
+    <td>${movieData.startYear}</td>
+    <td>
+    <button class='btn btn-danger' id='remove-button'>Remove</button>
+    </td>
+    `;
 
+    favouritesTable.appendChild(row);
+    const removeButton=row.querySelector('#remove-button');
+
+
+    removeButton.addEventListener('click',()=>removeFromFavourites(movie));
     //grab buttom
 
     //sign event listerner
@@ -52,10 +72,17 @@ async function renderTable(movieIds) {
   showLoadingScreen(false);
   favouritesTable.hidden = false;
 
-  renderPaginationControls(page);
+ // renderPaginationControls(page);
 }
 
 function removeFromFavourites(id){
+  const currentList=JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || [];
+
+  const index=currentList.findIndex((movie)=>movie===id);
+
+  currentList.splice(index,1);
+
+  localStorage.setItem('fav-' + currentUser.email,JSON.stringify(currentList));
 //cut id from list
 
 //update local storage

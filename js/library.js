@@ -5,18 +5,16 @@ let currentPage = 1;
 let allTopMovies = [];
 const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
 async function manager() {
-  if(currentUser){
-    document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
-  }
-  else{
-    window.location.href='login.html';
-  }
+  // if(currentUser){
+  //   document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
+  // }
+  // else{
+  //   window.location.href='login.html';
+  // }
   await initialiseTopMovies();
   await initialiseMovieCarousel();
 }
 manager();
-const MAXTOPMOVIES=20;
-
 
 // Top Movies section
 async function initialiseTopMovies() {
@@ -27,7 +25,7 @@ async function initialiseTopMovies() {
     return;
   }
 
-  allTopMovies = data.slice(0, MAXTOPMOVIES); // Save 50 movies locally
+  allTopMovies = data; // Save all movies locally
   renderPage(currentPage);
 }
 
@@ -132,7 +130,7 @@ function renderPaginationControls(currentPage) {
 
 // Carousel
 const MOVIES_PER_SLIDE = 4;
-const MAX_MOVIES = 12;
+const MAX_MOVIES = 100;
 
 async function initialiseMovieCarousel() {
   const data = await HttpMethods.getMostPopularMovies();

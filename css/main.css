@@ -262,3 +262,9 @@ h1, h2, h3, h4, h5 {
   filter: invert(-1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
 }
 
+/*FAVOURITES TABLE*/
+img.fav-poster {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
