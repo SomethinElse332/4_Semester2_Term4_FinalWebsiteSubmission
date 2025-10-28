@@ -199,12 +199,6 @@ h1, h2, h3, h4, h5 {
   border-radius: 10px 10px 0 0;
 }
 
-#heroCarouselContainer .carousel-item img {
-  height: 500px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
 .carousel-item .card-title {
   color: #ffcc00;
   font-size: 1rem;
@@ -253,14 +247,6 @@ h1, h2, h3, h4, h5 {
 
 .carousel-control-next {
   right: -3%;
-}
-/* Push controls outward slightly */
-#heroCarouselContainer .carousel-control-prev {
-  left: 3%;
-}
-
-#heroCarouselContainer .carousel-control-next {
-  right: 3%;
 }
 
 /* Add hover effects for subtle animation */

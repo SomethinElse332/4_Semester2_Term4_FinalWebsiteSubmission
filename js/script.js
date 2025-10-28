@@ -4,18 +4,38 @@ const MOVIES_PER_PAGE = 10;
 let currentPage = 1;
 let allTopMovies = [];
 const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
+let favourites;
 async function manager() {
   if(currentUser){
     document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
+    favourites=getUserFavourites();
   }
   else{
     window.location.href='login.html';
   }
   await initialiseTopMovies();
   await initialiseMovieCarousel();
+  await initialiseHeroCarousel();
 }
+
 manager();
 const MAXTOPMOVIES=20;
+
+function getUserFavourites(){
+    //get from local storage
+   return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
+}
+// async function initialiseFavourites(movieIds) {
+//   //const data = await HttpMethods.getTop250Movies();
+
+//   if (!data || data.length === 0) {
+//     console.error("No top movies returned");
+//     return;
+//   }
+
+//   allTopMovies = data; // Save all movies locally
+//   renderPage(currentPage);
+// }
 
 
 // Top Movies section
@@ -57,7 +77,7 @@ async function addMovieCard(movie, container) {
   // const directors = await HttpMethods.getDirectorsbyID(movie.id);
   // const rating = await HttpMethods.getRatingsbyID(movie.id);
  
-
+const isFavourite=favourites.includes(movie.id);
   const col = document.createElement("div");
   col.classList.add("col-12", "col-md-6", "mb-3");
 
@@ -72,8 +92,9 @@ async function addMovieCard(movie, container) {
           return  ' '  + genre;
         })}
         </p>
-        <button class="btn btn-primary" id="view-button" data-id="${movie.id}">View Details</button>
-        <button class="btn btn-primary" id="fav-button" data-id="${movie.id}">Add to Favourites</button>
+        <button class="btn btn-primary" id="view-button-${movie.id}" data-id="${movie.id}">View Details</button>
+        <button class="btn btn-primary ${isFavourite ? 'hidden' :''} " id="${movie.id}-fav-button" data-id="${movie.id}">Add to Favourites</button>
+        <button class="btn btn-danger ${!isFavourite ? 'hidden' :''} " id="${movie.id}-removeFav-button" data-id="${movie.id}">Remove From Favourites</button>
       </div>
     </div>
   `;
@@ -89,11 +110,15 @@ async function addMovieCard(movie, container) {
   container.appendChild(col);
 
   // Attach event listeners
-  const viewBtn = col.querySelector("button#view-button");
-  const favBtn = col.querySelector("button#fav-button");
+  const viewBtn = col.querySelector(`button#view-button-${movie.id}`);
+  const favBtn = col.querySelector(`button#${movie.id}-fav-button`);
+  const removeFav = col.querySelector(`#${movie.id}-removeFav-button`);
   viewBtn.addEventListener("click", () => viewMovieDetails(movie.id));
   favBtn.addEventListener("click", () => addToFavourites(movie.id));
+  removeFav.addEventListener("click", () => removeFromFavourites(movie.id));
+
 }
+
 
 function renderPaginationControls(currentPage) {
   const paginationContainer = document.getElementById("paginationControls");
@@ -214,6 +239,30 @@ const userFavourites=JSON.parse(localStorage.getItem('fav-' + email)) || [];
 userFavourites.push(movieId);
   // Put list back into storage
   localStorage.setItem(`fav-` + email,JSON.stringify(userFavourites));
+
+  const favBtn=document.getElementById(`${movieId}-fav-button`);
+  const removeBtn=document.getElementById(`${movieId}-removeFav-button`);
+
+  favBtn.classList.add('hidden');
+  removeBtn.classList.remove('hidden');
+
+}
+function removeFromFavourites(id){
+  const currentList=JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || [];
+
+  const index=currentList.findIndex((movie)=>movie===id);
+
+  currentList.splice(index,1);
+
+  localStorage.setItem('fav-' + currentUser.email,JSON.stringify(currentList));
+//cut id from list
+
+  const favBtn=document.getElementById(`${id}-fav-button`);
+  const removeBtn=document.getElementById(`${id}-removeFav-button`);
+
+  favBtn.classList.remove('hidden');
+  removeBtn.classList.add('hidden');
+//update local storage
 }
 
 function showLoadingScreen(show) {
@@ -237,3 +286,88 @@ function showCarouselLoadingScreen(show) {
 function viewMovieDetails(movieId) {
   window.location.href = `specificmovie.html?id=${movieId}`;
 }
+
+// Hero Carousel
+
+async function initialiseHeroCarousel() {
+  const data = await HttpMethods.getMostPopularMovies();
+
+  if (!data || data.length === 0) {
+    console.error("No movies returned for carousel");
+    return;
+  }
+
+  // Limit to 50 movies max
+  const limitedMovies = data.slice(MAX_MOVIES + 1, MAX_MOVIES * 2);
+  renderheroCarousel(limitedMovies);
+}
+
+async function renderheroCarousel(movies) {
+  const carouselContainer = document.getElementById("heroCarousel");
+  const indicatorContainer = document.querySelector("#heroIndicators.carousel-indicators");
+
+  carouselContainer.innerHTML = "";
+  indicatorContainer.innerHTML = "";
+
+  const totalSlides = movies.length
+
+  for (let i = 0; i < totalSlides; i++) {
+    const startIndex = i;
+    const endIndex = startIndex + 1;
+    const slideMovies = movies.slice(startIndex, endIndex);
+
+    // --- Create indicator button ---
+    const indicator = document.createElement("button");
+    indicator.type = "button";
+    indicator.setAttribute("data-bs-target", "#heroCarouselContainer");
+    indicator.setAttribute("data-bs-slide-to", i);
+    indicator.setAttribute("aria-label", `Slide ${i + 1}`);
+    if (i === 0) indicator.classList.add("active");
+    indicatorContainer.appendChild(indicator);
+
+    // --- Create slide ---
+    const carouselItem = document.createElement("div");
+    carouselItem.classList.add("carousel-item");
+    if (i === 0) carouselItem.classList.add("active");
+
+    const row = document.createElement("div");
+    row.classList.add("row", "justify-content-center", "g-3", "px-4");
+
+    slideMovies.forEach(movie => {
+      const col = document.createElement("div");
+      col.classList.add("col-12", "col-sm-6", "col-lg-3");
+
+      col.innerHTML = `
+        <div class="card h-100">
+        <a>
+          <img src="${movie.primaryImage}" class="card-img-top" alt="${movie.primaryTitle}">
+         </a> 
+        </div>
+      `;
+      //  <div class="card-body text-center">
+      //       <h6 class="card-title text-truncate">${movie.primaryTitle}</h6>
+      //       <button class="btn btn-sm btn-primary mt-2" data-id="${movie.id}">View Details</button>
+      //     </div>
+
+      const button = col.querySelector("a");
+      button.addEventListener("click", () => viewMovieDetails(movie.id));
+
+      row.appendChild(col);
+    });
+
+    carouselItem.appendChild(row);
+    carouselContainer.appendChild(carouselItem);
+    showHeroLoadingScreen(false);
+    document.getElementById("heroCarouselContainer").hidden = false;
+  }
+}
+
+function showHeroLoadingScreen(show) {
+  const loading = document.getElementById('heroLoadingScreen');
+  if (show) {
+    loading.style.display = 'flex';
+  } else {
+    loading.style.display = 'none';
+  }
+}
+ 

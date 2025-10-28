@@ -11,10 +11,62 @@
 
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">MovieHub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="library.html">Library</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="favourites.html">Watchlist</a>
+        </li>
+        
+       
+      </ul>
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron">
+ 
+<div id="heroLoadingScreen">Loading...</div>
+
+  <div id="heroCarouselContainer" class="carousel slide">
+  
+    <div class="carousel-inner" id="heroCarousel">
+     
+    </div>
+    <div class="carousel-indicators" id="heroIndicators">
+      <button type="button" data-bs-target="#heroarouselContainer" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarouselContainer" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarouselContainer" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarouselContainer" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarouselContainer" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div> 
+</div>
+
 <div class="content">
-    <div class="herosection"></div>
     <div class="welcome">
-        <h1 id="welcome-message">Welcome</h1>
+        <h1 id="welcome-message" class="text-center">Welcome</h1>
     </div>
 </div>
 

@@ -7,7 +7,7 @@ const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
 let favourites;
 async function manager() {
   if(currentUser){
-   // document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
+    document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
     favourites=getUserFavourites();
   }
   else{
@@ -16,11 +16,27 @@ async function manager() {
   await initialiseTopMovies();
   await initialiseMovieCarousel();
 }
+
 manager();
+const MAXTOPMOVIES=20;
+
 function getUserFavourites(){
     //get from local storage
    return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
 }
+// async function initialiseFavourites(movieIds) {
+//   //const data = await HttpMethods.getTop250Movies();
+
+//   if (!data || data.length === 0) {
+//     console.error("No top movies returned");
+//     return;
+//   }
+
+//   allTopMovies = data; // Save all movies locally
+//   renderPage(currentPage);
+// }
+
+
 // Top Movies section
 async function initialiseTopMovies() {
   const data = await HttpMethods.getTop250Movies();
@@ -30,7 +46,7 @@ async function initialiseTopMovies() {
     return;
   }
 
-  allTopMovies = data; // Save all movies locally
+  allTopMovies = data.slice(0, MAXTOPMOVIES); // Save 50 movies locally
   renderPage(currentPage);
 }
 
@@ -102,6 +118,7 @@ const isFavourite=favourites.includes(movie.id);
 
 }
 
+
 function renderPaginationControls(currentPage) {
   const paginationContainer = document.getElementById("paginationControls");
   paginationContainer.innerHTML = "";
@@ -139,7 +156,7 @@ function renderPaginationControls(currentPage) {
 
 // Carousel
 const MOVIES_PER_SLIDE = 4;
-const MAX_MOVIES = 100;
+const MAX_MOVIES = 12;
 
 async function initialiseMovieCarousel() {
   const data = await HttpMethods.getMostPopularMovies();
@@ -247,7 +264,6 @@ function removeFromFavourites(id){
 //update local storage
 }
 
-
 function showLoadingScreen(show) {
   const loading = document.getElementById('loadingScreen');
   if (show) {
@@ -269,3 +285,6 @@ function showCarouselLoadingScreen(show) {
 function viewMovieDetails(movieId) {
   window.location.href = `specificmovie.html?id=${movieId}`;
 }
+
+
+ 

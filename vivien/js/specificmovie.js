@@ -1,9 +1,9 @@
 import * as HttpMethods from './Http.js';
 // Waiting for DOM to load
-document.addEventListener('DOMContentLoaded', manager);
+document.addEventListener('DOMContentLoaded', initialiseMoviePage);
 
 async function initialiseMoviePage() {
- 
+ debugger;
   showLoadingScreen(true);
  
   // Gets the parameter that was passed into the URL
@@ -12,10 +12,30 @@ async function initialiseMoviePage() {
   // If no movieId is found, show an error
   if (!movieId) {
     displayError("No movie selected.");
-    window.location.href='index.html';
     return;
   }
-    // Otherwise continue processing
+
+  async function manager() {
+  if(currentUser){
+   // document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
+    favourites=getUserFavourites();
+  }
+  else{
+    window.location.href='login.html';
+  }
+  await initialiseTopMovies();
+  await initialiseMovieCarousel();
+}
+
+  const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
+let favourites; 
+manager();
+
+function getUserFavourites(){
+    //get from local storage
+   return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
+}
+  // Otherwise continue processing
   try {
     // Get movie details from API
     const movieData = await HttpMethods.getDetailsForID(movieId);
@@ -30,29 +50,6 @@ async function initialiseMoviePage() {
     // Once everything is done, take away the loading screen
     showLoadingScreen(false);
   }
-}
-
-  async function manager() {
-    
-  if(currentUser){
-   // document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
-    favourites=getUserFavourites();
-  }
-  else{
-    window.location.href='login.html';
-  }
-  
-  await initialiseMoviePage();
- 
-}
-
-  const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
-let favourites; 
-
-
-function getUserFavourites(){
-    //get from local storage
-   return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
 }
 //populate functions
 function populateMovieDetails(movie) {
@@ -71,21 +68,7 @@ function populateMovieDetails(movie) {
   document.getElementById('movieYear').textContent = movie.startYear;
   
   document.getElementById('movieContainer').hidden = false;
-
-  const isFavourite=favourites.includes(movie.id);
-  const fav =  document.getElementById('addFavourites');
-  fav.addEventListener("click", () => addFavourites(movie.id));
-  const remove = document.getElementById('removeFavourites');
-  remove.addEventListener("click", () => removeBtn(movie.id));
-  if (isFavourite){
-    fav.classList.add('hidden');
-    remove.classList.remove('hidden');
-  } else {
-    fav.classList.remove('hidden');
-    remove.classList.add('hidden');
-  }
-
-
+  document.getElementById('fav-button').addEventListener("click", () => addToFavourites(movie.id));
 }
 
 
@@ -102,6 +85,17 @@ function displayError (){
 
 }
 
+
+function addToFavourites(movieId) {
+const email=currentUser.email;
+  // Get user's list of favourites from storage
+const userFavourites=JSON.parse(localStorage.getItem('fav-' + email)) || [];
+  // Add movie to list
+userFavourites.push(movieId);
+  // Put list back into storage
+  localStorage.setItem(`fav-` + email,JSON.stringify(userFavourites));
+  
+}
 
 function getEmbedUrl(watchUrl) {
   if (!watchUrl) return '';
@@ -135,8 +129,8 @@ userFavourites.push(movieId);
   // Put list back into storage
   localStorage.setItem(`fav-` + email,JSON.stringify(userFavourites));
 
-  const favBtn=document.getElementById(`addFavourites`);
-  const removeBtn=document.getElementById(`removeFavourites`);
+  const favBtn=document.getElementById(`${movieId}-fav-button`);
+  const removeBtn=document.getElementById(`${movieId}-removeFav-button`);
 
   favBtn.classList.add('hidden');
   removeBtn.classList.remove('hidden');
@@ -153,8 +147,8 @@ function removeBtn(id){
   localStorage.setItem('fav-' + currentUser.email,JSON.stringify(currentList));
 //cut id from list
 
-  const favBtn=document.getElementById(`addFavourites`);
-  const removeBtn=document.getElementById(`removeFavourites`);
+  const favBtn=document.getElementById(`${id}-fav-button`);
+  const removeBtn=document.getElementById(`${id}-removeFav-button`);
 
   favBtn.classList.remove('hidden');
   removeBtn.classList.add('hidden');
