@@ -13,6 +13,7 @@ async function manager() {
   else{
     window.location.href='login.html';
   }
+  document.getElementById('log-out-btn').addEventListener("click", () => logout());
   await initialiseTopMovies();
   await initialiseMovieCarousel();
   await initialiseHeroCarousel();
@@ -20,6 +21,11 @@ async function manager() {
 
 manager();
 const MAXTOPMOVIES=20;
+
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "login.html";
+}
 
 function getUserFavourites(){
     //get from local storage
@@ -92,9 +98,9 @@ const isFavourite=favourites.includes(movie.id);
           return  ' '  + genre;
         })}
         </p>
-        <button class="btn btn-primary" id="view-button-${movie.id}" data-id="${movie.id}">View Details</button>
-        <button class="btn btn-primary ${isFavourite ? 'hidden' :''} " id="${movie.id}-fav-button" data-id="${movie.id}">Add to Favourites</button>
-        <button class="btn btn-danger ${!isFavourite ? 'hidden' :''} " id="${movie.id}-removeFav-button" data-id="${movie.id}">Remove From Favourites</button>
+        <button class="btn btn-primary mb-3 mb-lg-0" id="view-button-${movie.id}" data-id="${movie.id}">View Details</button>
+        <button class="btn btn-primary  mb-3 mb-lg-0 ${isFavourite ? 'hidden' :''} " id="${movie.id}-fav-button" data-id="${movie.id}">Add to Favourites</button>
+        <button class="btn btn-danger  mb-3 mb-lg-0 ${!isFavourite ? 'hidden' :''} " id="${movie.id}-removeFav-button" data-id="${movie.id}">Remove From Favourites</button>
       </div>
     </div>
   `;

@@ -25,33 +25,32 @@
         <li class="nav-item">
           <a class="nav-link" href="favourites.html">Watchlist</a>
         </li>
-        
-       
       </ul>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
+      <button class="btn btn-primary me-2 mt-2" id="log-out-btn">Log Out</button>
+
     </div>
   </div>
 </nav>
     <div id="favourites-content">
         <h1 id="heading" class="text-center">favourites</h1>
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th scope='col'>Image</th>
-            <th scope='col'>Title</th>
-            <th scope='col'>Description</th>
-            <th scope='col'>Release Year</th>
-            <th scope='col'></th>
-        </tr>
-    </thead>
-    <tbody id="favouritesTable" hidden>
- <tr><div id="loadingScreen">Loading</div></tr>
-    </tbody>
-    
-</table>
+        <div class="table-responsive card border-dark">
+          <table class="table table-dark mb-0">
+            <thead>
+                <tr>
+                    <th scope='col'>Image</th>
+                    <th scope='col'>Title</th>
+                    <th scope='col'>Description</th>
+                    <th scope='col'>Release Year</th>
+                    <th scope='col'></th>
+                </tr>
+            </thead>
+            <tbody id="favouritesTable" hidden>
+              <tr><div id="loadingScreen">Loading</div></tr>
+            </tbody>
+            
+        </table>
+        </div>
+
     </div>
 <script src="js/favourites.js"type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

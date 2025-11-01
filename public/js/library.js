@@ -13,6 +13,8 @@ async function manager() {
   else{
     window.location.href='login.html';
   }
+  document.getElementById('log-out-btn').addEventListener("click", () => logout());
+
   await initialiseTopMovies();
   await initialiseMovieCarousel();
 }

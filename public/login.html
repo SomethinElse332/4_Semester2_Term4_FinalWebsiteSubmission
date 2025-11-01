@@ -16,7 +16,7 @@
         <h1>Log In</h1>
         <form onsubmit="loginUser(); return false;">
             <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="username" id="userinput" required>
+            <input type="email" placeholder="Enter Username" name="username" id="userinput" required>
 
             <label for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" id='passwordinput' required>
@@ -25,10 +25,10 @@
 
             <p>Dont have an account yet?<a href="#" onclick="showLogin(false)">Register</a></p>
             </form>
-            </div>
+    </div>
         
 
-            <div id="register-section">
+    <div id="register-section">
         <h1>Sign up</h1>
         <form onsubmit="registerUser(); return false;">
             <label for="fname"><b>First name</b></label>
@@ -36,11 +36,11 @@
             <label for="lname"><b>Last name</b></label>
             <input type="text" placeholder="Enter lname" name="lname" id="lnameInput" required>
             <label for="email"><b>Email address</b></label>
-            <input type="text" placeholder="Enter Email" name="email" id="emailInput" required>
+            <input type="email" placeholder="Enter Email" name="email" id="emailInput" required>
             <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" id="passwordInput" required>
+            <input type="password" placeholder="Enter Password" name="password" id="passwordInput" minlength="8"  required>
             <label for="confirm-password"><b>Confirm Password</b></label>
-            <input type="password" placeholder="Confirm your Password" name="confirm-password" id="confirmPasswordInput" required>
+            <input type="password" placeholder="Confirm your Password" name="confirm-password" id="confirmPasswordInput" minlength="8" required>
    
    
             <button class="btn btn-primary mt-3" type="submit">Create account</button>

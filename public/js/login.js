@@ -68,11 +68,6 @@ async function loginUser() {
   }
 }
 
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "login.html";
-}
-
 function showLogin(show){
     const loginForm=document.getElementById("login-section");
     const registerForm=document.getElementById("register-section");

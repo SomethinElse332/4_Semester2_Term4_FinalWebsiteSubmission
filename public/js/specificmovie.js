@@ -41,9 +41,9 @@ async function initialiseMoviePage() {
   else{
     window.location.href='login.html';
   }
+  document.getElementById('log-out-btn').addEventListener("click", () => logout());
   
   await initialiseMoviePage();
- 
 }
 
   const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
@@ -66,8 +66,10 @@ function populateMovieDetails(movie) {
 //   document.getElementById('movieBoxOffice').textContent = movie.boxOffice;
   document.getElementById('movieReleaseDate').textContent = movie.releaseDate;
   document.getElementById('movieTrailer').src = embedUrl;
-  document.getElementById('movieCast').textContent = movie.cast.map((actor) => actor.fullName);
-  document.getElementById('movieGenre').textContent = movie.genres;
+  document.getElementById('movieCast').innerHTML = movie.cast?.length
+  ? movie.cast.map(actor => `<li>${actor.fullName}</li>`).join('')
+  : '<li>No cast information available.</li>';
+  document.getElementById('movieGenre').textContent = movie.genres.map((genre) => ' ' + genre);
   document.getElementById('movieYear').textContent = movie.startYear;
   
   document.getElementById('movieContainer').hidden = false;

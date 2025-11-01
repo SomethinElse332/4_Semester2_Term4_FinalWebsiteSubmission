@@ -5,17 +5,18 @@ const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
 
 async function manager(){
   
-//get favourites list for current user
-if(currentUser){
-  document.getElementById('heading').textContent=`${currentUser.name}'s Favourites`;
+  //get favourites list for current user
+  if(currentUser){
+    document.getElementById('heading').textContent=`${currentUser.name}'s Favourites`;
 
-}else{
-  window.location.href='login.html';
-}
+  }else{
+    window.location.href='login.html';
+  }
+  document.getElementById('log-out-btn').addEventListener("click", () => logout());
 
-const Ids=getUserFavourites();
- //fill in table data
-renderTable(Ids);
+  const Ids=getUserFavourites();
+  //fill in table data
+  renderTable(Ids);
 }
 
 manager();
@@ -24,17 +25,6 @@ function getUserFavourites(){
     //get from local storage
    return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
 }
-// async function initialiseFavourites(movieIds) {
-//   //const data = await HttpMethods.getTop250Movies();
-
-//   if (!data || data.length === 0) {
-//     console.error("No top movies returned");
-//     return;
-//   }
-
-//   allTopMovies = data; // Save all movies locally
-//   renderPage(currentPage);
-// }
 
 async function renderTable(movieIds) {
   showLoadingScreen(true);
