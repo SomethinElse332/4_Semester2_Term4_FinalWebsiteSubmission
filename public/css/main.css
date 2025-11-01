@@ -316,3 +316,9 @@ form {
 .hidden {
   display: none !important;
 }
+
+img#moviePoster{
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+}
