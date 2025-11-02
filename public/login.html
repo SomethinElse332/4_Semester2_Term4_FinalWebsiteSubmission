@@ -10,42 +10,96 @@
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div id="login-section" hidden>
-        <h1>Log In</h1>
+
+    <div id="login-section "hidden>
+       
+        <div class="container styleSignup">
+            <div class="col">
+            <div>
+                 <h1>Log In</h1>
+            </div>
+            
         <form>
+            <div class="signupItems">
             <label for="username"><b>Username</b></label>
+
+            </div>
+            <div class="signupItems">
             <input type="text" placeholder="Enter Username" name="username" id="userinput" required>
-
+            </div>
+            <div class="signupItems">
             <label for="password"><b>Password</b></label>
+            </div>
+            <div class="signupItems">           
             <input type="password" placeholder="Enter Password" name="password" id='passwordinput' required>
-
+            </div>
+            <div class="signupItems">
             <button onclick="loginUser()" type="submit">Login</button>
-
+            </div>
+            <div class="signupItems">
             <p>Dont have an account yet?<a href="#" onclick="showLogin(false)">Register</a></p>
+            </div>
+
+
+
             </form>
             </div>
-        
-
-            <div id="register-section">
-        <h1>Sign up</h1>
-        <form>
-            <label for="fname"><b>First name</b></label>
-            <input type="text" placeholder="Enter fname" name="fname" id="fnameInput" required>
-            <label for="lname"><b>Last name</b></label>
-            <input type="text" placeholder="Enter lname" name="lname" id="lnameInput" required>
-            <label for="email"><b>Email address</b></label>
-            <input type="text" placeholder="Enter Email" name="email" id="emailInput" required>
-            <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" id="passwordInput" required>
-            <label for="confirm-password"><b>Confirm Password</b></label>
-            <input type="password" placeholder="Confirm your Password" name="confirm-password" id="confirmPasswordInput" required>
-   
-   
-            <button onclick="registerUser()" type="submit">Create account</button>
-        </form>
-        <p>Already have an account? <a href="#" onclick="showLogin(true)">Log in</a></p>
+        </div>
     </div>
 
+            <div id="register-section">
+       
+        <div class="container styleSignup">
+            <div class="col">
+            <div>
+                <h1>Sign up</h1>
+            </div> 
+            
+        <form>
+            <div class="signupItems">
+                <label for="fname"><b>First name</b></label>
+            </div>
+            <div class="signupItems">
+               <input type="text" placeholder="Enter fname" name="fname" id="fnameInput" required> 
+            </div>
+            <div class="signupItems">
+                  <label for="lname"><b>Last name</b></label>
+            </div>
+            <div class="signupItems">
+                <input type="text" placeholder="Enter lname" name="lname" id="lnameInput" required>
+            </div>
+            <div class="signupItems">
+                <label for="email"><b>Email address</b></label>
+            </div>
+            <div class="signupItems">
+            <input type="text" placeholder="Enter Email" name="email" id="emailInput" required>
+            </div>
+            <div class="signupItems">
+            <label for="password"><b>Password</b></label>
+            </div>
+            <div class="signupItems">
+            <input type="password" placeholder="Enter Password" name="password" id="passwordInput" required>
+            </div>
+            <div class="signupItems">
+            <label for="confirm-password"><b>Confirm Password</b></label>
+            </div>
+            <div class="signupItems">
+            <input type="password" placeholder="Confirm your Password" name="confirm-password" id="confirmPasswordInput" required>
+            </div>
+            <div class="signupItems">
+            <button onclick="registerUser()" type="submit">Create account</button>
+            </div>
+            
+            
+   
+   
+        </form>
+        <div class="signupItems">
+        <p>Already have an account? <a href="#" onclick="showLogin(true)">Log in</a></p>
+        </div>
+    </div>
+</div>
+</div>
 
 
     <script src="js/login.js"></script>

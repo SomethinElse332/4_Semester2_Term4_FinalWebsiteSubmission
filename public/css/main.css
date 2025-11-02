@@ -262,3 +262,23 @@ h1, h2, h3, h4, h5 {
   filter: invert(-1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
 }
 
+
+/* make everything centered login/signup */
+.styleSignup{
+  font-family: poppins;
+ display: flex;
+ text-align: center;
+justify-content: center;
+margin-top: 10%;
+
+}
+.signupItems{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* library buttons */
+.libraryButtons{
+  display: flex;
+  justify-content: center;
+}
+
