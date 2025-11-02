@@ -275,3 +275,8 @@ margin-top: 10%;
   margin-top: 10px;
   margin-bottom: 10px;
 }
+/* library buttons */
+.libraryButtons{
+  display: flex;
+  justify-content: center;
+}
