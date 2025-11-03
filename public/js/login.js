@@ -22,7 +22,7 @@ async function hashPassword(password) {
 
 
 async function registerUser() {
-    debugger;
+   // debugger;
     const fnameInput=document.getElementById("fnameInput").value;
     const lnameInput=document.getElementById("lnameInput").value;
     const emailInput=document.getElementById("emailInput").value;
