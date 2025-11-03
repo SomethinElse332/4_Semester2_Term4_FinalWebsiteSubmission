@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE-edge">
-<meta name="viewport" content="width-device-width, initial-scale-1.0">
+<meta name="viewport" content="width=device-width, initial-scale-1.0">
 <meta name="keywords" content="">
+<meta mane="author" content="Vivien Davis">
 <title>Specific Movie</title>
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <link rel="stylesheet" href="css/main.css">
@@ -12,23 +13,61 @@
 </head>
 <body>
 
+    <nav class="navbar  navbar-dark navbar-expand-lg bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">MovieHub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="library.html">Library</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="favourites.html">Watchlist</a>
+        </li>
+      </ul>
+      <button class="btn btn-primary me-2 mt-2" id="log-out-btn">Log Out</button>
+    </div>
+  </div>
+</nav>
+<h1 id="heading" class="text-center mt-5 mb-5">Movie Details</h1>
+
 <div id="loadingScreen" classs="loading-overlay">Loading...</div>
 
 <div id="movieContainer" class="container" hidden>
     <h2 id="movieTitle"></h2>
+
     <img id="moviePoster" alt="Poster"width="320" height="240"/>
+
+    <img id="moviePoster" alt="Poster"/>
+
     <iframe width="320" height="240" controls 
     scr="movie.trailer" id="movieTrailer" >
     </iframe>
     <p id="movieSynopsis"></p>
-    <p><strong>Director:</strong><span id="movieDirectors"></span></p>
-    <p><strong>Release Date:</strong><span id="movieReleaseDate"></span></p>
-    <p><strong>Rating:</strong><span id="movieRating"></span></p>
-    <p><strong>Actors:</strong><span id="movieCast"></span></p> 
-    <p><strong>Genre:</strong><span id="movieGenre"></span></p>
+
+    <p><strong>Director: </strong><span id="movieDirectors"></span></p>
+    <p><strong>Release Date: </strong><span id="movieReleaseDate"></span></p>
+    <p><strong>Rating: </strong><span id="movieRating"></span></p>
+    <p><strong>Actors: </strong>
+      <ul id="movieCast"></ul>
+    </p> 
+    <p><strong>Genre: </strong><span id="movieGenre"></span></p>
     <!-- <p><strong>Box Office:</strong><span id="movieBoxOffice"></span></p>  -->
-    <p><strong>Year:</strong><span id="movieYear"></span></p>  
+    <p><strong>Year: </strong><span id="movieYear"></span></p>  
+
+    <button class="btn btn-primary me-2 mt-2" id='addFavourites'>Add to Watchlist</button>
+    <button class="btn btn-danger me-2 mt-2 hidden" id='removeFavourites'>Remove
+      from Watchlist</button>
 </div>
+
+        
+
 
 
 
@@ -37,6 +76,8 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <!-- <script src="js/script.js"type="module"></script> -->
-<script src="js/movie.js"type="module"></script>
+
+<script src="js/specificmovie.js"type="module"></script>
+
 </body>
 </html>

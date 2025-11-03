@@ -1,12 +1,15 @@
 {
-  "emulators": {
-    "dataconnect": {
-      "dataDir": "dataconnect/.dataconnect/pgliteData"
-    }
-  },
-  "dataconnect": {
-    "source": "dataconnect"
-  },
+
+  // "emulators": {
+  //   "dataconnect": {
+  //     "dataDir": "dataconnect/.dataconnect/pgliteData"
+  //   }
+  // },
+  // "dataconnect": {
+  //   "source": "dataconnect"
+  // },
+
+
   "hosting": {
     "public": "public",
     "ignore": [

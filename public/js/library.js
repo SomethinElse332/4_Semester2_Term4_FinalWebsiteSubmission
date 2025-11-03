@@ -8,9 +8,7 @@ const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
 let favourites;
 async function manager() {
   if(currentUser){
-
-    document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
-
+   // document.getElementById('welcome-message').textContent=`Welcome, ${currentUser.name}!`;
     favourites=getUserFavourites();
   }
   else{
@@ -20,37 +18,12 @@ async function manager() {
 
   await initialiseTopMovies();
   await initialiseMovieCarousel();
-  await initialiseHeroCarousel();
 }
-
 manager();
-const MAXTOPMOVIES=20;
-
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "login.html";
-}
-
-
 function getUserFavourites(){
     //get from local storage
    return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
 }
-
-// async function initialiseFavourites(movieIds) {
-//   //const data = await HttpMethods.getTop250Movies();
-
-//   if (!data || data.length === 0) {
-//     console.error("No top movies returned");
-//     return;
-//   }
-
-//   allTopMovies = data; // Save all movies locally
-//   renderPage(currentPage);
-// }
-
-
-
 // Top Movies section
 async function initialiseTopMovies() {
   const data = await HttpMethods.getTop250Movies();
@@ -60,9 +33,7 @@ async function initialiseTopMovies() {
     return;
   }
 
-
-  allTopMovies = data.slice(0, MAXTOPMOVIES); // Save 50 movies locally
-
+  allTopMovies = data; // Save all movies locally
   renderPage(currentPage);
 }
 
@@ -107,11 +78,9 @@ const isFavourite=favourites.includes(movie.id);
           return  ' '  + genre;
         })}
         </p>
-
-        <button class="btn btn-primary mb-3 mb-lg-0" id="view-button-${movie.id}" data-id="${movie.id}">View Details</button>
-        <button class="btn btn-primary  mb-3 mb-lg-0 ${isFavourite ? 'hidden' :''} " id="${movie.id}-fav-button" data-id="${movie.id}">Add to Favourites</button>
-        <button class="btn btn-danger  mb-3 mb-lg-0 ${!isFavourite ? 'hidden' :''} " id="${movie.id}-removeFav-button" data-id="${movie.id}">Remove From Favourites</button>
-
+        <button class="btn btn-primary" id="view-button-${movie.id}" data-id="${movie.id}">View Details</button>
+        <button class="btn btn-primary ${isFavourite ? 'hidden' :''} " id="${movie.id}-fav-button" data-id="${movie.id}">Add to Favourites</button>
+        <button class="btn btn-danger ${!isFavourite ? 'hidden' :''} " id="${movie.id}-removeFav-button" data-id="${movie.id}">Remove From Favourites</button>
       </div>
     </div>
   `;
@@ -135,9 +104,6 @@ const isFavourite=favourites.includes(movie.id);
   removeFav.addEventListener("click", () => removeFromFavourites(movie.id));
 
 }
-
-
-
 
 function renderPaginationControls(currentPage) {
   const paginationContainer = document.getElementById("paginationControls");
@@ -176,9 +142,7 @@ function renderPaginationControls(currentPage) {
 
 // Carousel
 const MOVIES_PER_SLIDE = 4;
-
-const MAX_MOVIES = 12;
-
+const MAX_MOVIES = 100;
 
 async function initialiseMovieCarousel() {
   const data = await HttpMethods.getMostPopularMovies();
@@ -287,7 +251,6 @@ function removeFromFavourites(id){
 }
 
 
-
 function showLoadingScreen(show) {
   const loading = document.getElementById('loadingScreen');
   if (show) {
@@ -309,7 +272,6 @@ function showCarouselLoadingScreen(show) {
 function viewMovieDetails(movieId) {
   window.location.href = `specificmovie.html?id=${movieId}`;
 }
-
 
 
 let allMovies = [];
@@ -409,90 +371,4 @@ console.log(data.results);
 
 
 
-
-
-// Hero Carousel
-
-async function initialiseHeroCarousel() {
-  const data = await HttpMethods.getMostPopularMovies();
-
-  if (!data || data.length === 0) {
-    console.error("No movies returned for carousel");
-    return;
-  }
-
-  // Limit to 50 movies max
-  const limitedMovies = data.slice(MAX_MOVIES + 1, MAX_MOVIES * 2);
-  renderheroCarousel(limitedMovies);
-}
-
-async function renderheroCarousel(movies) {
-  const carouselContainer = document.getElementById("heroCarousel");
-  const indicatorContainer = document.querySelector("#heroIndicators.carousel-indicators");
-
-  carouselContainer.innerHTML = "";
-  indicatorContainer.innerHTML = "";
-
-  const totalSlides = movies.length
-
-  for (let i = 0; i < totalSlides; i++) {
-    const startIndex = i;
-    const endIndex = startIndex + 1;
-    const slideMovies = movies.slice(startIndex, endIndex);
-
-    // --- Create indicator button ---
-    const indicator = document.createElement("button");
-    indicator.type = "button";
-    indicator.setAttribute("data-bs-target", "#heroCarouselContainer");
-    indicator.setAttribute("data-bs-slide-to", i);
-    indicator.setAttribute("aria-label", `Slide ${i + 1}`);
-    if (i === 0) indicator.classList.add("active");
-    indicatorContainer.appendChild(indicator);
-
-    // --- Create slide ---
-    const carouselItem = document.createElement("div");
-    carouselItem.classList.add("carousel-item");
-    if (i === 0) carouselItem.classList.add("active");
-
-    const row = document.createElement("div");
-    row.classList.add("row", "justify-content-center", "g-3", "px-4");
-
-    slideMovies.forEach(movie => {
-      const col = document.createElement("div");
-      col.classList.add("col-12", "col-sm-6", "col-lg-3");
-
-      col.innerHTML = `
-        <div class="card h-100">
-        <a>
-          <img src="${movie.primaryImage}" class="card-img-top" alt="${movie.primaryTitle}">
-         </a> 
-        </div>
-      `;
-      //  <div class="card-body text-center">
-      //       <h6 class="card-title text-truncate">${movie.primaryTitle}</h6>
-      //       <button class="btn btn-sm btn-primary mt-2" data-id="${movie.id}">View Details</button>
-      //     </div>
-
-      const button = col.querySelector("a");
-      button.addEventListener("click", () => viewMovieDetails(movie.id));
-
-      row.appendChild(col);
-    });
-
-    carouselItem.appendChild(row);
-    carouselContainer.appendChild(carouselItem);
-    showHeroLoadingScreen(false);
-    document.getElementById("heroCarouselContainer").hidden = false;
-  }
-}
-
-function showHeroLoadingScreen(show) {
-  const loading = document.getElementById('heroLoadingScreen');
-  if (show) {
-    loading.style.display = 'flex';
-  } else {
-    loading.style.display = 'none';
-  }
-}
- 
 

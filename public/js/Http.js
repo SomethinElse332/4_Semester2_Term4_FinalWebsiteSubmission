@@ -10,12 +10,12 @@ export async function getDetailsForID(id){
     try{
         console.log("Fetching details for ID:", id); 
         const endpoint = url + id;
-        // const response = await fetch(endpoint, options);
-        // const result = await response.json();
-        // console.log("Fetched details:", result); 
-        // return result;
+        const response = await fetch(endpoint, options);
+        const result = await response.json();
+        console.log("Fetched details:", result); 
+        return result;
 
-        return MOVIE_DETAILS;
+       // return MOVIE_DETAILS;
     }
     catch(error){
 
@@ -27,12 +27,12 @@ export async function getDetailsForID(id){
  export async function getRatingsbyID(id){
     try{
         const endpoint = url + id + '/rating';
-        // const response = await fetch(endpoint, options);
-        // const result = await response.json();
-        // console.log("Fetched details:", result);
-        // return result;
+        const response = await fetch(endpoint, options);
+        const result = await response.json();
+        console.log("Fetched details:", result);
+        return result;
 
-        return RATING;
+        //return RATING;
     }
     catch(error){
 
@@ -72,12 +72,12 @@ async function getCastbyID(id){
 export async function getDirectorsbyID(id){
     try{
         const endpoint = url + id + '/directors';
-        // const response = await fetch(endpoint, options);
-        // const result = await response.json();
-        //  console.log("Fetched details:", result);
-        // return result;
+        const response = await fetch(endpoint, options);
+        const result = await response.json();
+         console.log("Fetched details:", result);
+        return result;
 
-        return DIRECTORS;
+        //return DIRECTORS;
     }
     catch(error){
 
@@ -87,12 +87,12 @@ export async function getDirectorsbyID(id){
 export async function getTop250Movies(){
     try{
         const endpoint = url + 'top250-movies';
-        // const response = await fetch(endpoint, options);
-        // const result = await response.json();
-        // console.log("Fetched details:", result);
-        // return result;
-        console.log(TOP_250_MOVIES);
-        return TOP_250_MOVIES;
+        const response = await fetch(endpoint, options);
+        const result = await response.json();
+        console.log("Fetched details:", result);
+        return result;
+        // console.log(TOP_250_MOVIES);
+        // return TOP_250_MOVIES;
     }
     catch(error){
 
@@ -102,12 +102,12 @@ export async function getTop250Movies(){
 export async function getMostPopularMovies(){
     try{
         const endpoint = url + 'most-popular-movies';
-        // const response = await fetch(endpoint, options);
-        // const result = await response.json();
-        // console.log("Fetched details:", result);
-        // return result;
+        const response = await fetch(endpoint, options);
+        const result = await response.json();
+        console.log("Fetched details:", result);
+        return result;
 
-        return MOST_POPULAR_MOVIES;
+        //return MOST_POPULAR_MOVIES;
     }
     catch(error){
 

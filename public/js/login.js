@@ -22,7 +22,7 @@ async function hashPassword(password) {
 
 
 async function registerUser() {
-    debugger;
+   // debugger;
     const fnameInput=document.getElementById("fnameInput").value;
     const lnameInput=document.getElementById("lnameInput").value;
     const emailInput=document.getElementById("emailInput").value;
@@ -50,7 +50,7 @@ async function registerUser() {
 }
 
 async function loginUser() {
-    debugger;
+
   const userinput = document.getElementById("userinput")
   const passwordinput = document.getElementById("passwordinput")
   const email = userinput.value;
@@ -68,21 +68,16 @@ async function loginUser() {
   }
 }
 
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "login.html";
-}
-
 function showLogin(show){
     const loginForm=document.getElementById("login-section");
     const registerForm=document.getElementById("register-section");
 
     if(show){
-        loginForm.hidden=false;
-        registerForm.hidden=true;
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
     }
     else{
-        loginForm.hidden=true;
-        registerForm.hidden=false;
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
     }
 }
