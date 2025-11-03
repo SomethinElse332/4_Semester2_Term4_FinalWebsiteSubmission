@@ -3,6 +3,9 @@ import * as HttpMethods from './Http.js';
 const MOVIES_PER_PAGE = 10;
 let currentPage = 1;
 let allTopMovies = [];
+let limitedMovies = [];
+let allTopMoviesfiltered = [];
+let limitedMoviesfiltered = [];
 const currentUser=JSON.parse(localStorage.getItem('loggedInUser'));
 let favourites;
 async function manager() {
@@ -23,6 +26,22 @@ function getUserFavourites(){
     //get from local storage
    return JSON.parse(localStorage.getItem('fav-' + currentUser.email)) || []; 
 }
+
+function filter(data){
+const input=document.querySelector('input#search').value.toLowerCase();
+if(input==='')return data;
+
+return data.filter((movie)=>{
+    return movie.primaryTitle.toLowerCase().includes(input);
+});
+}
+export function onfilter(){
+allTopMoviesfiltered=filter(allTopMovies);
+  renderPage(currentPage);
+   limitedMoviesfiltered=filter(limitedMovies);
+  renderMovieCarousel(limitedMoviesfiltered);
+ // await initialiseMovieCarousel();
+}
 // Top Movies section
 async function initialiseTopMovies() {
   const data = await HttpMethods.getTop250Movies();
@@ -33,6 +52,7 @@ async function initialiseTopMovies() {
   }
 
   allTopMovies = data; // Save all movies locally
+  allTopMoviesfiltered=filter(allTopMovies);
   renderPage(currentPage);
 }
 
@@ -43,7 +63,7 @@ async function renderPage(page) {
 
   const startIndex = (page - 1) * MOVIES_PER_PAGE;
   const endIndex = startIndex + MOVIES_PER_PAGE;
-  const moviesToShow = allTopMovies.slice(startIndex, endIndex);
+  const moviesToShow = allTopMoviesfiltered.slice(startIndex, endIndex);
 
   const row = topMoviesGrid.querySelector(".row");
 
@@ -152,7 +172,8 @@ async function initialiseMovieCarousel() {
   }
 
   // Limit to 50 movies max
-  const limitedMovies = data.slice(0, MAX_MOVIES);
+ limitedMovies = data.slice(0, MAX_MOVIES);
+  limitedMoviesfiltered=filter(limitedMovies);
   renderMovieCarousel(limitedMovies);
 }
 
